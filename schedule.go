@@ -12,6 +12,7 @@ type (
 	}
 )
 
+// Next returns the next time matched with the expression.
 func (s *Schedule) Next(t time.Time) time.Time {
 	loc := time.UTC
 	if s.Location != nil {
@@ -96,6 +97,7 @@ L:
 	return t.In(origLoc)
 }
 
+// Next returns the previous time matched with the expression.
 func (s *Schedule) Prev(t time.Time) time.Time {
 	loc := time.UTC
 	if s.Location != nil {
