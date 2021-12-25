@@ -127,11 +127,10 @@ func parseField(field string, b bound, t translater) (bitset, error) {
 // parseFieldExpr returns the bits indicated by the given expression:
 //   number | number "-" number [ "/" number ]
 func parseFieldExpr(fieldexpr string, b bound, t translater) (bitset, error) {
-	if fieldexpr == "*" {
-		return bitsetStar, nil
-	}
+	// Replace "*" into "min-max".
+	newexpr := strings.Replace(fieldexpr, "*", fmt.Sprintf("%d-%d", b.min, b.max), 1)
 
-	rangeAndStep := strings.Split(fieldexpr, "/")
+	rangeAndStep := strings.Split(newexpr, "/")
 	if !(len(rangeAndStep) == 1 || len(rangeAndStep) == 2) {
 		return 0, fmt.Errorf("Failed to parse the expr '%s', too many '/'", fieldexpr)
 	}
@@ -172,7 +171,7 @@ func parseFieldExpr(fieldexpr string, b bound, t translater) (bitset, error) {
 
 	// Parse the step, second.
 	step := 1
-	if len(rangeAndStep) == 2 {
+	if hasStep {
 		var err error
 		if step, err = strconv.Atoi(rangeAndStep[1]); err != nil {
 			return 0, fmt.Errorf("Failed to parse the expr '%s': %w", fieldexpr, err)

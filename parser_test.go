@@ -23,7 +23,7 @@ func Test_parseField(t *testing.T) {
 			{
 				value: "*",
 				b:     boundMinute,
-				want:  bitsetStar,
+				want:  buildBitset(0, 59, 1),
 			},
 			{
 				value: "5",
@@ -50,6 +50,11 @@ func Test_parseField(t *testing.T) {
 				value: "5-20/5",
 				b:     boundMinute,
 				want:  (1 << 5) | (1 << 10) | (1 << 15) | (1 << 20),
+			},
+			{
+				value: "*/20",
+				b:     boundMinute,
+				want:  (1 << 0) | (1 << 20) | (1 << 40),
 			},
 		}
 
