@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type (
@@ -55,6 +56,44 @@ var (
 	}
 )
 
+// MustParse returns the same result as Parse but it panic
+// when something is wrong.
+func MustParseInLocation(expr string, locName string) *Schedule {
+	loc, err := time.LoadLocation(locName)
+	if err != nil {
+		panic(err)
+	}
+
+	schdule, err := Parse(expr)
+	if err != nil {
+		panic(err)
+	}
+
+	schdule.Location = loc
+	return schdule
+}
+
+// ParseInLocation parse the expression in the location and
+// returns a new schedule representing the given spec.
+// It returns an error when loading the location is failed or
+// the syntax of the expression is wrong.
+func ParseInLocation(expr string, locName string) (*Schedule, error) {
+	loc, err := time.LoadLocation(locName)
+	if err != nil {
+		return nil, err
+	}
+
+	schdule, err := Parse(expr)
+	if err != nil {
+		return nil, err
+	}
+
+	schdule.Location = loc
+	return schdule, nil
+}
+
+// MustParse returns the same result as Parse but it panic
+// when the syntax of expression is wrong.
 func MustParse(expr string) *Schedule {
 	s, err := Parse(expr)
 	if err != nil {
@@ -64,6 +103,9 @@ func MustParse(expr string) *Schedule {
 	return s
 }
 
+// Parse parses the expression and returns a new schedule representing the given spec.
+// And the default location of a schedule is "UTC".
+// It returns an error when the syntax of expression is wrong.
 func Parse(expr string) (*Schedule, error) {
 	err := verifyExpr(expr)
 	if err != nil {

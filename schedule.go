@@ -8,13 +8,19 @@ type (
 	Schedule struct {
 		Minute, Hour, Dom, Month, Dow bitset
 
-		// TODO: support the timezone option
-		// Location *time.Location
+		Location *time.Location
 	}
 )
 
+// Next returns the next time matched with the expression.
 func (s *Schedule) Next(t time.Time) time.Time {
 	loc := time.UTC
+	if s.Location != nil {
+		loc = s.Location
+	}
+
+	origLoc := t.Location()
+	t.In(loc)
 
 	added := false
 
@@ -88,11 +94,18 @@ L:
 		}
 	}
 
-	return t
+	return t.In(origLoc)
 }
 
+// Next returns the previous time matched with the expression.
 func (s *Schedule) Prev(t time.Time) time.Time {
 	loc := time.UTC
+	if s.Location != nil {
+		loc = s.Location
+	}
+
+	origLoc := t.Location()
+	t.In(loc)
 
 	subtracted := false
 
@@ -167,7 +180,7 @@ L:
 		}
 	}
 
-	return t
+	return t.In(origLoc)
 }
 
 // dayMatches returns true if the schedule's day-of-week and day-of-month

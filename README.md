@@ -54,5 +54,4 @@ Hyphens define ranges. For example, 2000-2010 indicates every year between 2000 
 
 ## Details
 
-* At this moment, the package supports only **UTC** timezone.
 * The return value of `Next` and `Prev` is zero if the pattern doesn't match in five years.
