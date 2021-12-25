@@ -114,8 +114,8 @@ L:
 			t = time.Date(t.Year(), t.Month()+1, 0, 23, 59, 0, 0, loc)
 		}
 
-		// Subtract one month
-		// Note that AddDate(0, -1, 0) has a bug for the normalization.
+		// Change the time into the last day of the previous month.
+		// Note that AddDate(0, -1, 0) has a bug by the normalization.
 		// E.g) time.Date(2021, 6, 0, 23, 59, 59, 0, time.UTC).AddDate(0, -1, 0)
 		t = time.Date(t.Year(), t.Month(), 0, 23, 59, 0, 0, loc)
 
