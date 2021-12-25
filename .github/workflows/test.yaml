@@ -1,0 +1,28 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  go-test:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        uses: actions/checkout@v2
+      - 
+        name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.41
+          args: -D errcheck --timeout 2m
+      - 
+        uses: actions/setup-go@v1
+        with:
+          go-version: '1.17'
+      - 
+        run: go test -cpu 4 -coverprofile .testCoverage.txt ./...
+        env:
+          GIN_MODE: release

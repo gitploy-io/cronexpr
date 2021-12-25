@@ -80,19 +80,19 @@ func Parse(expr string) (*Schedule, error) {
 		return nil, err
 	}
 
-	if hour, err = parseField(fields[1], boundMinute, translater{}); err != nil {
+	if hour, err = parseField(fields[1], boundHour, translater{}); err != nil {
 		return nil, err
 	}
 
-	if dom, err = parseField(fields[2], boundMinute, translater{}); err != nil {
+	if dom, err = parseField(fields[2], boundDOM, translater{}); err != nil {
 		return nil, err
 	}
 
-	if month, err = parseField(fields[3], boundMinute, translaterMonth); err != nil {
+	if month, err = parseField(fields[3], boundMonth, translaterMonth); err != nil {
 		return nil, err
 	}
 
-	if dow, err = parseField(fields[4], boundMinute, translaterDay); err != nil {
+	if dow, err = parseField(fields[4], boundDOW, translaterDay); err != nil {
 		return nil, err
 	}
 
