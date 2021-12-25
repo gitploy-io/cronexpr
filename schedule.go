@@ -18,6 +18,7 @@ func (s *Schedule) Next(t time.Time) time.Time {
 		loc = s.Location
 	}
 
+	origLoc := t.Location()
 	t.In(loc)
 
 	added := false
@@ -92,7 +93,7 @@ L:
 		}
 	}
 
-	return t
+	return t.In(origLoc)
 }
 
 func (s *Schedule) Prev(t time.Time) time.Time {
@@ -101,6 +102,7 @@ func (s *Schedule) Prev(t time.Time) time.Time {
 		loc = s.Location
 	}
 
+	origLoc := t.Location()
 	t.In(loc)
 
 	subtracted := false
@@ -176,7 +178,7 @@ L:
 		}
 	}
 
-	return t
+	return t.In(origLoc)
 }
 
 // dayMatches returns true if the schedule's day-of-week and day-of-month
