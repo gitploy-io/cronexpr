@@ -52,3 +52,7 @@ Commas are used to separate items of a list. For example, using `MON,WED,FRI` in
 ### Hyphen ( - )
 Hyphens define ranges. For example, 2000-2010 indicates every year between 2000 and 2010 AD, inclusive.
 
+## Details
+
+* At this moment, the package supports only **UTC** timezone.
+* The return value of `Next` and `Prev` is zero if the pattern doesn't match in five years.
