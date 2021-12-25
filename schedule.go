@@ -8,13 +8,17 @@ type (
 	Schedule struct {
 		Minute, Hour, Dom, Month, Dow bitset
 
-		// TODO: support the timezone option
-		// Location *time.Location
+		Location *time.Location
 	}
 )
 
 func (s *Schedule) Next(t time.Time) time.Time {
 	loc := time.UTC
+	if s.Location != nil {
+		loc = s.Location
+	}
+
+	t.In(loc)
 
 	added := false
 
@@ -93,6 +97,11 @@ L:
 
 func (s *Schedule) Prev(t time.Time) time.Time {
 	loc := time.UTC
+	if s.Location != nil {
+		loc = s.Location
+	}
+
+	t.In(loc)
 
 	subtracted := false
 

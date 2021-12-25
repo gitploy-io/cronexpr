@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type (
@@ -54,6 +55,36 @@ var (
 		"SAT": 6,
 	}
 )
+
+func MustParseInLocation(expr string, locName string) *Schedule {
+	loc, err := time.LoadLocation(locName)
+	if err != nil {
+		panic(err)
+	}
+
+	schdule, err := Parse(expr)
+	if err != nil {
+		panic(err)
+	}
+
+	schdule.Location = loc
+	return schdule
+}
+
+func ParseInLocation(expr string, locName string) (*Schedule, error) {
+	loc, err := time.LoadLocation(locName)
+	if err != nil {
+		return nil, err
+	}
+
+	schdule, err := Parse(expr)
+	if err != nil {
+		return nil, err
+	}
+
+	schdule.Location = loc
+	return schdule, nil
+}
 
 func MustParse(expr string) *Schedule {
 	s, err := Parse(expr)
