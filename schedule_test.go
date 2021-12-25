@@ -66,7 +66,8 @@ func TestSchedule_Prev(t *testing.T) {
 		{"Mon Jul 9 14:59 2012", "0/15 * * * *", "Mon Jul 9 14:45 2012"},
 
 		// Wrap around hours
-		{"Mon Jul 9 15:45 2012", "20-35/15 * * * *", "Mon Jul 9 15:35 2012"},
+		{"Mon Jul 9 15:10 2012", "20-35/15 * * * *", "Mon Jul 9 14:35 2012"},
+		{"Mon Jul 9 15:19 2012", "20-35/15 * * * *", "Mon Jul 9 14:35 2012"},
 
 		// Wrap around days
 		{"Tue Jul 10 00:00 2012", "0/15 * * * *", "Mon Jul 9 23:45 2012"},
@@ -75,6 +76,10 @@ func TestSchedule_Prev(t *testing.T) {
 		// Wrap around months
 		{"Thu Aug 9 00:00 2012", "0 0 9 Apr-Oct *", "Mon Jul 9 00:00 2012"},
 		{"Tue Aug 1 00:00 2012", "0 0 * Apr,Aug,Oct *", "Mon Apr 30 00:00 2012"},
+
+		// Wrap around years
+		{"Mon Jul 9 23:35 2012", "* * * Dec *", "Sat Dec 31 23:59 2011"},
+		{"Mon Jul 9 23:35 2012", "* * * Dec Mon/2", "Fri Dec 30 23:59 2011"},
 	}
 
 	for _, c := range runs {
