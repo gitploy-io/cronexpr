@@ -94,7 +94,9 @@ L:
 		}
 	}
 
-	return t.In(origLoc)
+	return t.
+		Truncate(time.Minute).
+		In(origLoc)
 }
 
 // Next returns the previous time matched with the expression.
@@ -180,7 +182,9 @@ L:
 		}
 	}
 
-	return t.In(origLoc)
+	return t.
+		Truncate(time.Minute).
+		In(origLoc)
 }
 
 // dayMatches returns true if the schedule's day-of-week and day-of-month
