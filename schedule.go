@@ -20,7 +20,7 @@ func (s *Schedule) Next(t time.Time) time.Time {
 	}
 
 	origLoc := t.Location()
-	t.In(loc)
+	t = t.In(loc)
 
 	added := false
 
@@ -107,7 +107,7 @@ func (s *Schedule) Prev(t time.Time) time.Time {
 	}
 
 	origLoc := t.Location()
-	t.In(loc)
+	t = t.In(loc)
 
 	subtracted := false
 
